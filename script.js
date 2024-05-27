@@ -9,25 +9,27 @@ import { placeBet, spinRoulette, processBets, removeBankruptPlayers } from './be
 
 function gameLoop() {
     let round = 1;
-
     let winningNumber = "..";
-    let bets = [];
+    let numbers = [];
+    
     while (players.length > 0) {
         console.clear();
         console.log(chalk.green.bold(`   We are at round: ${round}   `));
         createRouletteTable(winningNumber);
 
         players.forEach((player) => {
+          
             console.log(chalk.green.bold(`${player.name} has $${player.wallet}`));
         });
 
         players.forEach((player) => {
-            console.clear();
+          
+          console.clear();
             console.log(" ");
             
             console.log("     ", chalk.green("=".repeat(50)));
             console.log(" ");
-            console.log( "         ",  chalk.green.bold(` Round: ${round}   `));
+            console.log( "         ",  chalk.green.bold(`         Round: ${round}   `));
             console.log(" ");
             console.log("     ", chalk.green("=".repeat(50)));
             console.log(" ");
@@ -36,25 +38,26 @@ function gameLoop() {
             
             console.log("     ", chalk.green("=".repeat(50)));
             console.log(" ");
-            console.log( "         ",  chalk.green.bold(`             The winning number is: ${winningNumber}   `));
+            console.log( "         ",  chalk.green.bold(`         The winning number is: ${winningNumber}   `));
             console.log(" ");
             console.log("     ", chalk.green("=".repeat(50)));
-            console.log(" ");            console.log();
+            console.log(" ");            
+           
             console.log(" ");
             console.log(createRouletteTable(winningNumber));
-            console.log(" ");
-            createPlayersTable(players, bets);
-            console.log(" ");
             console.log("     ", chalk.green("=".repeat(50)));
             console.log(" ");
-            const chooseNumbers = readlineSync.question(chalk.green.bold(` ${player.name}, choose numbers: `));
+            console.log(" ");
+            createPlayersTable(players, numbers);
+            console.log(" ");
+            let chooseNumbers = readlineSync.question(chalk.green.bold(` ${player.name}, choose numbers: `));
             let amount = readlineSync.question(chalk.green.bold(` ${player.name}, enter the amount: `));
-
+            
             while (amount > player.wallet) {
                 console.clear();
                 console.log("    ", chalk.green("=".repeat(50)));
                 console.log(" ");
-                console.log(chalk.green.bold(`Round: ${round}`));;
+                console.log(chalk.green.bold(`        Round: ${round}`));;
                 console.log(" ");
                 console.log("    ", chalk.green("=".repeat(50)));
                 players.forEach((p) => console.log(chalk.green.bold(`${p.name} has $${p.wallet}`)));
@@ -62,15 +65,16 @@ function gameLoop() {
                 amount = readlineSync.question(`${player.name}, enter the amount you want to bet: `);
             }
 
-            const numbers = chooseNumbers.split(" ");
+             numbers = chooseNumbers.split(" ");  
             placeBet(player, numbers, amount);
+            
         });
 
         
         winningNumber = spinRoulette();
         createRouletteTable(winningNumber);
         processBets(winningNumber);
-        createPlayersTable(players, bets);
+        createPlayersTable(players, numbers);
         removeBankruptPlayers(players);
 
         round++;

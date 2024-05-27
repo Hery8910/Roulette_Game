@@ -19,7 +19,7 @@ export function createUsers() {
     }
 }
 
-export function createPlayersTable(players, bets) {
+export function createPlayersTable(players, numbers) {
   const table = new Table({
       head: ['Player', 'Wallet', 'Bets'],
       chars: {
@@ -31,11 +31,11 @@ export function createPlayersTable(players, bets) {
   });
 
   players.forEach(player => {
-      const playerBets = bets
-          .filter(bet => bet.player.id === player.id)
-          .map(bet => bet.number)
-          .join(', ');
-      table.push([player.name, `$${player.wallet}`, playerBets]);
+      // const playerBets = bets
+      //     .filter(bet => bet.player.id === player.id)
+      //     .map(bet => bet.number)
+      //     .join(', ');
+      table.push([player.name, `$${player.wallet}`, numbers.join(", ")]);
   });
 
   console.log(table.toString());
